@@ -1,8 +1,8 @@
 //
 //  CoreAPIManager.swift
-//  CountryAPP
+//  MoovieeAPP
 //
-//  Created by Javidan on 10.12.24.
+//  Created by Javidan on 24.12.24.
 //
 
 import Foundation
@@ -31,35 +31,36 @@ final class CoreAPIManager {
             print("body: \(String(data: try! JSONSerialization.data(withJSONObject: body, options: .prettyPrinted), encoding: .utf8)!)")
         }
         
-        
         let task = session.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self else {return}
-            guard let response = response as? HTTPURLResponse else {return}
-            if response.statusCode == 401 {
-                completion(.failure(CoreErrorModel.authError(code: response.statusCode)))
+            let task = session.dataTask(with: request) { [weak self] data, response, error in
+                guard let self = self else {return}
+                guard let response = response as? HTTPURLResponse else {return}
+                if response.statusCode == 401 {
+                    completion(.failure(CoreErrorModel.authError(code: response.statusCode)))
+                }
+                
+                print(response.statusCode)
+                guard let error = error else {
+                    guard let data = data else {return}
+                    handleResponse(data: data, completion: completion)
+                    return
+                }
+                completion(.failure(CoreErrorModel(code: response.statusCode, message: error.localizedDescription)))
             }
-            
-            print(response.statusCode)
-            guard let error = error else {
-                guard let data = data else {return}
-                handleResponse(data: data, completion: completion)
-                return
-            }
-            completion(.failure(CoreErrorModel(code: response.statusCode, message: error.localizedDescription)))
-        }
-        task.resume()
-    }
-    
-    fileprivate func handleResponse<T: Decodable>( // Json'u Parse etdiyimiz function
-        data: Data,
-        completion: @escaping((Result<T,CoreErrorModel>) -> Void)
-    ) {
-        do {
-            let response = try JSONDecoder().decode(T.self, from: data)
-            completion(.success(response))
-        }
-        catch {
-            completion(.failure(CoreErrorModel.decodingError()))
+            task.resume()
         }
     }
-}
+        fileprivate func handleResponse<T: Decodable>(
+            data: Data,
+            completion: @escaping((Result<T,CoreErrorModel>) -> Void)
+        ) {
+            do {
+                let response = try JSONDecoder().decode(T.self, from: data)
+                completion(.success(response))
+            }
+            catch {
+                completion(.failure(CoreErrorModel.decodingError()))
+            }
+        }
+    }
+

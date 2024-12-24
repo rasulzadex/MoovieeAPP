@@ -23,6 +23,7 @@ final class HomeController: BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getMovieList()
     }
 
     override func configureView() {
