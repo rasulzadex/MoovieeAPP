@@ -230,6 +230,73 @@ extension UIViewController {
 
 }
 
+//MARK: COLLECTIONVIEW EXTENSION
+
+extension UICollectionReusableView {
+    static var reuseIdentifier: String {
+        return String(describing: Self.self)
+    }
+}
+
+extension UICollectionView {
+    func register<T: UICollectionViewCell>(cell: T.Type) {
+        register(T.self, forCellWithReuseIdentifier: T.reuseIdentifier)
+    }
+    
+    func register<T: UICollectionReusableView>(header: T.Type) {
+        
+        register(
+            T.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: T.reuseIdentifier)
+    }
+    
+    func register<T: UICollectionReusableView>(footer: T.Type) {
+        register(
+            T.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: T.reuseIdentifier)
+    }
+    
+}
+
+extension UICollectionView {
+    func dequeue<T: UICollectionViewCell>(for indexPath: IndexPath) -> T {
+        return dequeueReusableCell(
+            withReuseIdentifier: T.reuseIdentifier,
+            for: indexPath
+        ) as! T
+    }
+}
+
+extension UICollectionView {
+    // Existing code for registering cells and supplementary views
+    
+    func dequeue<T: UICollectionReusableView>(
+        header: T.Type,
+        for indexPath: IndexPath
+    ) -> T {
+        return dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: T.reuseIdentifier,
+            for: indexPath
+        ) as! T
+    }
+    
+    func dequeue<T: UICollectionReusableView>(
+        footer: T.Type,
+        for indexPath: IndexPath
+    ) -> T {
+        return dequeueReusableSupplementaryView(
+            ofKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: T.reuseIdentifier,
+            for: indexPath
+        ) as! T
+    }
+}
+
+
+
 //extension UIImageView {
 //    func loadImageURL(url: String) {
 //        guard let url = URL(string: url) else {return}

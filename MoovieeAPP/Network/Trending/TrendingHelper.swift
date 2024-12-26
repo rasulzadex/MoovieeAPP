@@ -7,13 +7,16 @@
 
 import Foundation
 enum TrendingHelper {
-    case all
+    case all(String)
     
+    private var mainPath: String {
+        return "trending/"
+    }
     
      var endPoint: URL? {
         switch self {
-        case .all:
-            return CoreAPIHelper.instance.makeURL(path: "all/")
+        case .all(let query):
+            return CoreAPIHelper.instance.makeURL(path: "\(mainPath)all/\(query)")
         }
     }
     

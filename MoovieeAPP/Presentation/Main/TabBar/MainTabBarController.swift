@@ -28,9 +28,9 @@ final class MainTabBarController: UITabBarController {
         self.tabBar.tintColor = .white
         self.tabBar.unselectedItemTintColor = .white.withAlphaComponent(0.4)
         self.tabBar.layer.borderWidth = 1
-        self.tabBar.layer.borderColor = UIColor.appPurple.withAlphaComponent(0.5).cgColor
+        self.tabBar.layer.borderColor = UIColor.appBlue.withAlphaComponent(0.5).cgColor
         self.tabBar.layer.cornerRadius = 16
         self.tabBar.clipsToBounds = true
-        self.tabBar.backgroundColor = .appPurple.withAlphaComponent(1)
+        self.tabBar.backgroundColor = .appBlue.withAlphaComponent(1)
     }
 }

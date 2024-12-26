@@ -10,15 +10,14 @@ import UIKit
 class BaseController: UIViewController {
     
     private lazy var background: ReImg = {
-        let i = ReImg(imageName: "background", contentMode: .scaleAspectFill, cornerRadius: 0)
-        i.alpha = 0.05
+        let i = ReImg(imageName: "background", contentMode: .scaleToFill, cornerRadius: 0)
         return i
     }()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .appBlue
+        view.backgroundColor = .clear
         configureView()
         configureConstraints()
     }

@@ -16,7 +16,7 @@ enum HttpMethods: String {
 }
 
 enum BaseURL: String {
-    case prod = "https://api.themoviedb.org/3/trending/"
+    case prod = "https://api.themoviedb.org/3/"
 }
 
 final class CoreAPIHelper {
@@ -31,8 +31,8 @@ final class CoreAPIHelper {
     
     func makeHeader() -> [String: String] {
         return [
+            "accept": "application/json",
             "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkYjM2ODE1OGJjNDI0NjZiZDcyMzNlNGRjYjFkMjU5MyIsIm5iZiI6MTczNDY5Njk1MS41MzYsInN1YiI6IjY3NjU1ZmY3YWUxYjQxMWY0MDVkZmI5MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.50B3anFEo6tAe_R2Vs66MJdbwk9rydZ5z4SZLjBAA9E"]
-
     }
 }
 

@@ -7,6 +7,16 @@
 
 import UIKit
 
+public protocol WithUsingProtocol {}
+extension UIView: WithUsingProtocol {}
+
+extension WithUsingProtocol {
+    public func withUsing(_ closure: (Self) -> Void) -> Self {
+        closure(self)
+        return self
+    }
+}
+
 extension UIEdgeInsets {
     // Initialize UIEdgeInsets with equal padding for all sides
     public init(all value: CGFloat) {
